@@ -1,11 +1,17 @@
 import datetime
 
-class Adherent:
-    def __init__(self, nom, prenom, age, numAdherent):
+
+
+class Personne:
+    def __init__(self, nom, prenom, age):
         self.nom = nom
         self.prenom = prenom
         self.age = age
+class Adherent(Personne):
+    def __init__(self, nom, prenom, age, numAdherent):
+        super().__init__(nom, prenom, age)
         self.numAdherent = numAdherent
+
     def __eq__(self, other):
         return self.numAdherent == other.numAdherent
 class Livre:
@@ -81,12 +87,12 @@ class InterfaceUtilisateur:
                 adherent = Adherent(nom, prenom, age,numAdherent)
                 self.bibliotheque.ajouter_adherent(adherent)
             elif choix == '2':
-                '''nom = input("Entrez le nom de l'adhérent à supprimer : ")
-                prenom = input("Entrez le prénom de l'adhérent à supprimer : ")
-                age = input("Entrez l'age de l'adhérent à supprimer : ")'''
                 numAdherent = input("Entrez le ID de l'adhérent à supprimer : ")
-                adherent = Adherent(numAdherent)
-                self.bibliotheque.supprimer_adherent(adherent)
+                adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
+                if adherent:
+                    self.bibliotheque.supprimer_adherent(adherent)
+                else:
+                    print("Adhérent non trouvé.")
             elif choix == '3':
                 for adherent in self.bibliotheque.adherents:
                     print(f"{adherent.numAdherent} {adherent.nom} {adherent.prenom} {adherent.age}")
