@@ -1,10 +1,13 @@
 import datetime
 
 class Adherent:
-    def __init__(self, nom, prenom):
+    def __init__(self, nom, prenom, age, numAdherent):
         self.nom = nom
         self.prenom = prenom
-
+        self.age = age
+        self.numAdherent = numAdherent
+    def __eq__(self, other):
+        return self.numAdherent == other.numAdherent
 class Livre:
     def __init__(self, titre, emprunte=False):
         self.titre = titre
@@ -73,16 +76,20 @@ class InterfaceUtilisateur:
             elif choix == '1':
                 nom = input("Entrez le nom de l'adhérent : ")
                 prenom = input("Entrez le prénom de l'adhérent : ")
-                adherent = Adherent(nom, prenom)
+                age = input("Entrez l'age de l'adhérent : ")
+                numAdherent = input("Entrez le ID de l'adhérent : ")
+                adherent = Adherent(nom, prenom, age,numAdherent)
                 self.bibliotheque.ajouter_adherent(adherent)
             elif choix == '2':
-                nom = input("Entrez le nom de l'adhérent à supprimer : ")
+                '''nom = input("Entrez le nom de l'adhérent à supprimer : ")
                 prenom = input("Entrez le prénom de l'adhérent à supprimer : ")
-                adherent = Adherent(nom, prenom)
+                age = input("Entrez l'age de l'adhérent à supprimer : ")'''
+                numAdherent = input("Entrez le ID de l'adhérent à supprimer : ")
+                adherent = Adherent(numAdherent)
                 self.bibliotheque.supprimer_adherent(adherent)
             elif choix == '3':
                 for adherent in self.bibliotheque.adherents:
-                    print(f"{adherent.nom} {adherent.prenom}")
+                    print(f"{adherent.numAdherent} {adherent.nom} {adherent.prenom} {adherent.age}")
             elif choix == '4':
                 titre = input("Entrez le titre du livre : ")
                 livre = Livre(titre)
