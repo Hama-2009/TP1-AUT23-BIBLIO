@@ -1,5 +1,5 @@
 import datetime
-
+import csv
 
 class Personne:
     def __init__(self, nom, prenom, age):
@@ -9,21 +9,24 @@ class Personne:
 
 
 class Adherent(Personne):
-    def __init__(self, nom, prenom, age, numAdherent):
-        super().__init__(nom, prenom, age)
+    def __init__(self, p, numAdherent):
+        super().__init__(p.nom, p.prenom, p.age)
         self.numAdherent = numAdherent
 
     def __eq__(self, other):
         return self.numAdherent == other.numAdherent
 
-
-class Livre:
-    def __init__(self, titre, nombrePages, ISBN, emprunte=False):
+class Document:
+    def __init__(self, titre, nombrePages, ISBN):
         self.titre = titre
         self.nombrePages = nombrePages
         self.ISBN = ISBN
+class Livre(Document):
+    def __init__(self, doc, auteur, maisonEdition, emprunte=False):
+        super().__init__(doc.titre, doc.nombrePages, doc.ISBN)
         self.emprunte = emprunte
-
+        self.auteur = auteur
+        self.maisonEdition = maisonEdition
 class Emprunt:
     def __init__(self, adherent, livre, date_emprunt, date_retour=None):
         self.adherent = adherent
@@ -90,7 +93,7 @@ class InterfaceUtilisateur:
                 prenom = input("Entrez le prénom de l'adhérent : ")
                 age = input("Entrez l'age de l'adhérent : ")
                 numAdherent = input("Entrez le ID de l'adhérent : ")
-                adherent = Adherent(nom, prenom, age, numAdherent)
+                adherent = Adherent(Personne(nom, prenom, age), numAdherent)
                 self.bibliotheque.ajouter_adherent(adherent)
             elif choix == '2':
                 numAdherent = input("Entrez le ID de l'adhérent à supprimer : ")
@@ -106,7 +109,9 @@ class InterfaceUtilisateur:
                 titre = input("Entrez le titre du livre : ")
                 nombrePages = input("Entrez le nombrePages du livre : ")
                 ISBN = input("Entrez le ISBN du livre : ")
-                livre = Livre(titre, nombrePages, ISBN)
+                auteur = input (" auteur : ")
+                maisonEdition = input ("maison : ")
+                livre = Livre(Document(titre, nombrePages, ISBN), auteur, maisonEdition)
                 self.bibliotheque.ajouter_livre(livre)
             elif choix == '5':
                 titre = input("Entrez le titre du livre à supprimer : ")
