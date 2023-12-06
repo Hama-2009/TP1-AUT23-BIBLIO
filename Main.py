@@ -1,3 +1,4 @@
+import csv
 import datetime
 
 
@@ -40,6 +41,12 @@ class Bibliotheque:
     def ajouter_adherent(self, adherent):
         self.adherents.append(adherent)
 
+    def sauvegarder_adherents(self, filename='adherents.csv'):
+        with open(filename, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Nom', 'Prenom', 'Age', 'NumAdherent'])
+            for adherent in self.adherents:
+                writer.writerow([adherent.nom, adherent.prenom, adherent.age, adherent.numAdherent])
     def supprimer_adherent(self, adherent):
         self.adherents.remove(adherent)
 
@@ -64,6 +71,14 @@ class InterfaceUtilisateur:
     def __init__(self, bibliotheque):
         self.bibliotheque = bibliotheque
 
+    def sauvegarder_donnees(self):
+        self.bibliotheque.sauvegarder_adherents()
+
+    def charger_donnees(self):
+        # Implement loading data from CSV files if needed
+        pass
+
+
     def menu(self):
         print("""
         1       Ajouter adhérent
@@ -82,8 +97,9 @@ class InterfaceUtilisateur:
         while True:
             self.menu()
             choix = input("Choisissez une action : ")
-
+            self.sauvegarder_donnees()
             if choix == 'Q':
+
                 break
             elif choix == '1':
                 nom = input("Entrez le nom de l'adhérent : ")
@@ -162,4 +178,5 @@ class InterfaceUtilisateur:
 
 bibliotheque = Bibliotheque()
 interface = InterfaceUtilisateur(bibliotheque)
+interface.charger_donnees()
 interface.run()
