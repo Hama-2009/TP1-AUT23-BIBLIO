@@ -43,6 +43,7 @@ class Bibliotheque:
     def ajouter_adherent(self, adherent):
         self.adherents.append(adherent)
 
+
     def supprimer_adherent(self, adherent):
         self.adherents.remove(adherent)
 
@@ -95,6 +96,7 @@ class InterfaceUtilisateur:
                 numAdherent = input("Entrez le ID de l'adhérent : ")
                 adherent = Adherent(Personne(nom, prenom, age), numAdherent)
                 self.bibliotheque.ajouter_adherent(adherent)
+
             elif choix == '2':
                 numAdherent = input("Entrez le ID de l'adhérent à supprimer : ")
                 adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
@@ -168,3 +170,5 @@ class InterfaceUtilisateur:
 bibliotheque = Bibliotheque()
 interface = InterfaceUtilisateur(bibliotheque)
 interface.run()
+
+
