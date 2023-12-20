@@ -1,5 +1,5 @@
 import datetime
-import csv
+import json
 
 class Personne:
     def __init__(self, nom, prenom, age):
@@ -40,6 +40,22 @@ class Bibliotheque:
         self.livres = []
         self.emprunts = []
 
+    def sauvegarder_livres(self, filename="livres.json"):
+        livres_data = []
+        for livre in self.livres:
+            livre_data = {
+                "titre": livre.titre,
+                "nombrePages": livre.nombrePages,
+                "ISBN": livre.ISBN,
+                "auteur": livre.auteur,
+                "maisonEdition": livre.maisonEdition,
+                "emprunte": livre.emprunte
+            }
+            livres_data.append(livre_data)
+
+        with open(filename, "w") as file:
+            json.dump(livres_data, file)
+
     def ajouter_adherent(self, adherent):
         self.adherents.append(adherent)
 
@@ -49,6 +65,8 @@ class Bibliotheque:
 
     def ajouter_livre(self, livre):
         self.livres.append(livre)
+        self.sauvegarder_livres("my_books.json")
+
 
     def supprimer_livre(self, livre):
         self.livres.remove(livre)
@@ -79,6 +97,7 @@ class InterfaceUtilisateur:
         7       Ajouter Emprunt
         8       Retour d’un Emprunt
         9       Afficher tous les Emprunts
+        )       Save and quit
         Q      Quitter
         """)
 

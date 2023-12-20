@@ -1,5 +1,6 @@
 import datetime
-import csv
+import json
+
 
 class Personne:
     def __init__(self, nom, prenom, age):
@@ -16,17 +17,22 @@ class Adherent(Personne):
     def __eq__(self, other):
         return self.numAdherent == other.numAdherent
 
+
 class Document:
     def __init__(self, titre, nombrePages, ISBN):
         self.titre = titre
         self.nombrePages = nombrePages
         self.ISBN = ISBN
+
+
 class Livre(Document):
     def __init__(self, doc, auteur, maisonEdition, emprunte=False):
         super().__init__(doc.titre, doc.nombrePages, doc.ISBN)
         self.emprunte = emprunte
         self.auteur = auteur
         self.maisonEdition = maisonEdition
+
+
 class Emprunt:
     def __init__(self, adherent, livre, date_emprunt, date_retour=None):
         self.adherent = adherent
@@ -34,24 +40,58 @@ class Emprunt:
         self.date_emprunt = date_emprunt
         self.date_retour = date_retour
 
+
 class Bibliotheque:
     def __init__(self):
         self.adherents = []
         self.livres = []
         self.emprunts = []
 
+    def sauvegarder_livres(self, filename="livres.json"):
+        livres_data = []
+        for livre in self.livres:
+            livre_data = {
+                "titre": livre.titre,
+                "nombrePages": livre.nombrePages,
+                "ISBN": livre.ISBN,
+                "auteur": livre.auteur,
+                "maisonEdition": livre.maisonEdition,
+                "emprunte": livre.emprunte
+            }
+            livres_data.append(livre_data)
+
+        with open(filename, "w") as file:
+            json.dump(livres_data, file)
+
+    def sauvegarder_adherents(self, filename="adherents.json"):
+        adherents_data = []
+        for adherent in self.adherents:
+            adherent_data = {
+                "nom": adherent.nom,
+                "prenom": adherent.prenom,
+                "age": adherent.age,
+                "numAdherent": adherent.numAdherent
+            }
+            adherents_data.append(adherent_data)
+
+        with open(filename, "w") as file:
+            json.dump(adherents_data, file)
+
     def ajouter_adherent(self, adherent):
         self.adherents.append(adherent)
-
+        self.sauvegarder_adherents("adherents.json")
 
     def supprimer_adherent(self, adherent):
         self.adherents.remove(adherent)
+        self.sauvegarder_adherents("adherents.json")
 
     def ajouter_livre(self, livre):
         self.livres.append(livre)
+        self.sauvegarder_livres("my_books.json")
 
     def supprimer_livre(self, livre):
         self.livres.remove(livre)
+        self.sauvegarder_livres("my_books.json")
 
     def ajouter_emprunt(self, emprunt):
         self.emprunts.append(emprunt)
@@ -61,7 +101,8 @@ class Bibliotheque:
 
     def afficher_emprunts(self):
         for emprunt in self.emprunts:
-            print(f"{emprunt.adherent.nom} {emprunt.adherent.prenom} a emprunté {emprunt.livre.titre} le {emprunt.date_emprunt}")
+            print(
+                f"{emprunt.adherent.nom} {emprunt.adherent.prenom} a emprunté {emprunt.livre.titre} le {emprunt.date_emprunt}")
 
 
 class InterfaceUtilisateur:
@@ -111,8 +152,8 @@ class InterfaceUtilisateur:
                 titre = input("Entrez le titre du livre : ")
                 nombrePages = input("Entrez le nombrePages du livre : ")
                 ISBN = input("Entrez le ISBN du livre : ")
-                auteur = input (" auteur : ")
-                maisonEdition = input ("maison : ")
+                auteur = input(" auteur : ")
+                maisonEdition = input("maison : ")
                 livre = Livre(Document(titre, nombrePages, ISBN), auteur, maisonEdition)
                 self.bibliotheque.ajouter_livre(livre)
             elif choix == '5':
@@ -155,7 +196,8 @@ class InterfaceUtilisateur:
                     print("Livre non trouvé.")
                     continue
 
-                emprunt = next((e for e in self.bibliotheque.emprunts if e.adherent == adherent and e.livre == livre and e.date_retour is None), None)
+                emprunt = next((e for e in self.bibliotheque.emprunts if
+                                e.adherent == adherent and e.livre == livre and e.date_retour is None), None)
                 if emprunt:
                     self.bibliotheque.retourner_emprunt(emprunt)
                     livre.emprunte = False
