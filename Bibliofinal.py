@@ -79,8 +79,6 @@ class Bibliotheque:
         self.livres.remove(livre)
         self.sauvegarder_livres("livres.csv")
 
-
-
     def ajouter_emprunt(self, emprunt):
         self.emprunts.append(emprunt)
 
@@ -130,7 +128,6 @@ class Bibliotheque:
                            tablefmt="pretty"))
         else:
             print("Aucun emprunt en cours.")
-
 
 class InterfaceUtilisateur:
     def __init__(self, bibliotheque):
@@ -190,6 +187,7 @@ class InterfaceUtilisateur:
                         break
             elif choix == '2':
                 numAdherent = input("Entrez le ID de l'adhérent à supprimer : ")
+                print("Adhérent supprimé avec succès")
                 adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
                 if adherent:
                     self.bibliotheque.supprimer_adherent(adherent)
@@ -292,7 +290,6 @@ class InterfaceUtilisateur:
                 if not livre:
                     print("Livre non trouvé.")
                     continue
-
                 date_emprunt = datetime.datetime.now().strftime("%Y-%m-%d")
                 emprunt = Emprunt(adherent, livre, date_emprunt)
                 self.bibliotheque.ajouter_emprunt(emprunt)
@@ -305,7 +302,6 @@ class InterfaceUtilisateur:
                 if not adherent:
                     print("Adhérent non trouvé.")
                     continue
-
                 titre = input("Entrez le titre du livre à retourner : ")
                 livre = next((l for l in self.bibliotheque.livres if l.titre == titre), None)
                 if not livre:
