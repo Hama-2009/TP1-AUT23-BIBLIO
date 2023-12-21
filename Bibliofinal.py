@@ -1,7 +1,5 @@
 import csv
 import datetime
-import json
-
 # Définition des classes
 class Personne:
     def __init__(self, nom, prenom, age):
