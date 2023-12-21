@@ -8,7 +8,7 @@ class Personne:
         self.prenom = prenom
         self.age = age
 
-
+# Classe décrivant un adhérent avec un identifiant unique
 class Adherent(Personne):
     def __init__(self, p, numAdherent):
         super().__init__(p.nom, p.prenom, p.age)
@@ -17,14 +17,14 @@ class Adherent(Personne):
     def __eq__(self, other):
         return self.numAdherent == other.numAdherent
 
-
+# Classe de base pour tout type de document
 class Document:
     def __init__(self, titre, nombrePages, ISBN):
         self.titre = titre
         self.nombrePages = nombrePages
         self.ISBN = ISBN
 
-
+# Classe spécifique pour les livres, héritant de la classe Document
 class Livre(Document):
     def __init__(self, doc, Auteur, maisonEdition, emprunte=False):
         super().__init__(doc.titre, doc.nombrePages, doc.ISBN)
@@ -32,7 +32,7 @@ class Livre(Document):
         self.Auteur = Auteur
         self.maisonEdition = maisonEdition
 
-
+# Classe représentant un emprunt associant un adhérent à un livre et des dates
 class Emprunt:
     def __init__(self, adherent, livre, date_emprunt, date_retour=None):
         self.adherent = adherent
@@ -40,7 +40,7 @@ class Emprunt:
         self.date_emprunt = date_emprunt
         self.date_retour = date_retour
 
-
+# Classe gérant les opérations de la bibliothèque : ajout, suppression, sauvegarde, etc.
 class Bibliotheque:
     def __init__(self):
         self.adherents = []
