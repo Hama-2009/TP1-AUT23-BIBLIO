@@ -138,19 +138,20 @@ class InterfaceUtilisateur:
 
     def menu(self):
         print("""
-        ========== Bienvenue à votre Bibliothèque ========
-        | -------------- Faite un choix -----------------|
-        | 1 ======> Ajouter adhérent                     |
-        | 2 ======> Supprimer adhérent                   |
-        | 3 ======> Afficher tous les adhérents          |
-        | 4 ======> Ajouter Livre                        |
-        | 5 ======> Supprimer Livre                      |
-        | 6 ======> Afficher tous les Livres             |
-        | 7 ======> Ajouter Emprunt                      |
-        | 8 ======> Retour d’un Emprunt                  |
-        | 9 ======> Afficher tous les Emprunts           |
-        | Q ======> Quitter                              |
-        ==================================================
+        ╔══════════════════════════════════════════════╗
+        ║═══════ Bienvenue à votre Bibliothèque ═══════║
+        ╠═══════════════ Faite un choix ═══════════════╠                
+        ╟ 1  →      Ajouter adhérent                   ║  
+        ╟ 2  →      Supprimer adhérent                 ║  
+        ╟ 3  →      Afficher tous les adhérents        ║  
+        ╟ 4  →      Ajouter Livre                      ║  
+        ╟ 5  →      Supprimer Livre                    ║  
+        ╟ 6  →      Afficher tous les Livres           ║  
+        ╟ 7  →      Ajouter Emprunt                    ║  
+        ╟ 8  →      Retour d’un Emprunt                ║  
+        ╟ 9  →      Afficher tous les Emprunts         ║  
+        ╟ Q  →      Quitter                            ║  
+        ╚══════════════════════════════════════════════╝
         """)
 
     def run(self):
