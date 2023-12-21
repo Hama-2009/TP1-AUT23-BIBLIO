@@ -1,7 +1,7 @@
 import datetime
 import json
 
-# début du Programme
+# Définition des classes
 class Personne:
     def __init__(self, nom, prenom, age):
         self.nom = nom
@@ -47,6 +47,7 @@ class Bibliotheque:
         self.livres = []
         self.emprunts = []
 
+    # Sauvegarde des livres dans un fichier JSON
     def sauvegarder_livres(self, filename="livres.json"):
         livres_data = []
         for livre in self.livres:
@@ -63,6 +64,7 @@ class Bibliotheque:
         with open(filename, "w") as file:
             json.dump(livres_data, file)
 
+    # Sauvegarde des adhérents dans un fichier JSON
     def sauvegarder_adherents(self, filename="adherents.json"):
         adherents_data = []
         for adherent in self.adherents:
@@ -77,18 +79,22 @@ class Bibliotheque:
         with open(filename, "w") as file:
             json.dump(adherents_data, file)
 
+    # Ajout d'un adhérent à la liste et sauvegarde dans le fichier JSON
     def ajouter_adherent(self, adherent):
         self.adherents.append(adherent)
         self.sauvegarder_adherents("adherents.json")
 
+    # Suppression d'un adhérent à la liste et sauvegarde dans le fichier JSON
     def supprimer_adherent(self, adherent):
         self.adherents.remove(adherent)
         self.sauvegarder_adherents("adherents.json")
 
+    # Ajout d'un livre à la liste et sauvegarde dans le fichier JSON
     def ajouter_livre(self, livre):
         self.livres.append(livre)
         self.sauvegarder_livres("my_books.json")
 
+    # Suppression d'un livre de la liste et mise à jour du fichier JSON
     def supprimer_livre(self, livre):
         self.livres.remove(livre)
         self.sauvegarder_livres("my_books.json")
