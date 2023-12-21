@@ -96,6 +96,7 @@ class Bibliotheque:
         # Affichage de l'état de la liste des livres après le retour
         print("Liste des livres après le retour :")
         print("{:<30} {:<15} {:<10} {:<15}".format("Titre", "ISBN", "Emprunté", "Date d'emprunt"))
+
         for livre in self.livres:
             emprunte = 'Non'
             date_emprunt = 'Non emprunté'
@@ -111,7 +112,7 @@ class Bibliotheque:
                     break
 
             print("{:<30} {:<15} {:<10} {:<15}".format(livre.titre, livre.ISBN, emprunte, date_emprunt))
-
+            input()
     def afficher_emprunts(self):
         emprunts_non_rendus = []
         for emprunt in self.emprunts:
@@ -317,24 +318,28 @@ class InterfaceUtilisateur:
                     livre.emprunte = False
                 else:
                     print("Emprunt non trouvé.")
+
             elif choix == '8':
                 numAdherent = input("Entrez le ID de l'adhérent qui retourne le livre : ")
                 adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
                 if not adherent:
                     print("Adhérent non trouvé.")
                     continue
-                titre = input("Entrez le titre du livre à retourner : ")
-                livre = next((l for l in self.bibliotheque.livres if l.titre == titre), None)
+
+                ISBN = input("Entrez l'ISBN du livre à retourner : ")
+                livre = next((l for l in self.bibliotheque.livres if l.ISBN == ISBN), None)
                 if not livre:
                     print("Livre non trouvé.")
                     continue
 
-                emprunt = next((e for e in self.bibliotheque.emprunts if e.adherent == adherent and e.livre == livre and e.date_retour is None), None)
+                emprunt = next((e for e in self.bibliotheque.emprunts if
+                                e.adherent == adherent and e.livre == livre and e.date_retour is None), None)
                 if emprunt:
                     self.bibliotheque.retourner_emprunt(emprunt)
                     livre.emprunte = False
                 else:
                     print("Emprunt non trouvé.")
+                input("Appuyez sur Entrée pour continuer...")
             elif choix == '9':
                 print("Liste des Emprunts :")
                 print("Adhérent".ljust(20), "Livre".ljust(30), "Date d'emprunt")
