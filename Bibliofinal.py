@@ -156,7 +156,8 @@ class InterfaceUtilisateur:
             self.menu()
             choix = input("Choisissez une action : ")
 
-            if choix == 'Q':
+            if choix.lower() == 'q':
+                print("Merci d'avoir utilisé notre bibliothèque. À bientôt !")
                 break
             elif choix == '1':
                 while True:
@@ -296,6 +297,26 @@ class InterfaceUtilisateur:
                 print("Emprunt exécuté avec succès")
                 input()
                 livre.emprunte = True
+            elif choix == '8':
+                numAdherent = input("Entrez le ID de l'adhérent qui retourne le livre : ")
+                adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
+                if not adherent:
+                    print("Adhérent non trouvé.")
+                    continue
+
+                ISBN = input("Entrez l'ISBN du livre à retourner : ")
+                livre = next((l for l in self.bibliotheque.livres if l.ISBN == ISBN), None)
+                if not livre:
+                    print("Livre non trouvé.")
+                    continue
+
+                emprunt = next((e for e in self.bibliotheque.emprunts if
+                                e.adherent == adherent and e.livre == livre and e.date_retour is None), None)
+                if emprunt:
+                    self.bibliotheque.retourner_emprunt(emprunt)
+                    livre.emprunte = False
+                else:
+                    print("Emprunt non trouvé.")
             elif choix == '8':
                 numAdherent = input("Entrez le ID de l'adhérent qui retourne le livre : ")
                 adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
