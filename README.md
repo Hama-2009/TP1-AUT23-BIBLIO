@@ -27,8 +27,8 @@ Le code est divisé en plusieurs classes :
 
 ## Utilisation
 
-1. Exécutez le fichier `main.py` pour lancer l'interface utilisateur.
-2. Suivez les instructions du menu pour effectuer des actions telles que l'ajout d'adhérents, de livres, etc.
+1. Exécutez le fichier `Bibliofinal.py` pour lancer l'interface utilisateur.
+2. Suivez les instructions du menu pour effectuer des actions suivantes: l'ajout d'adhérents, de livres et Emprunt.
 
 ## Sauvegarde des Données
 
