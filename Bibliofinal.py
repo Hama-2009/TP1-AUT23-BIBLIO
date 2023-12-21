@@ -1,6 +1,5 @@
+import csv
 import datetime
-import json
-
 # Définition des classes
 class Personne:
     def __init__(self, nom, prenom, age):
@@ -47,57 +46,40 @@ class Bibliotheque:
         self.livres = []
         self.emprunts = []
 
-    # Sauvegarde des livres dans un fichier JSON
-    def sauvegarder_livres(self, filename="livres.json"):
-        livres_data = []
-        for livre in self.livres:
-            livre_data = {
-                "titre": livre.titre,
-                "nombrePages": livre.nombrePages,
-                "ISBN": livre.ISBN,
-                "Auteur": livre.Auteur,
-                "maisonEdition": livre.maisonEdition,
-                "emprunte": livre.emprunte
-            }
-            livres_data.append(livre_data)
+    def sauvegarder_livres(self, filename="livres.csv"):
+        with open(filename, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(["titre", "nombrePages", "ISBN", "auteur", "maisonEdition", "emprunte"])
 
-        with open(filename, "w") as file:
-            json.dump(livres_data, file)
+            for livre in self.livres:
+                writer.writerow(
+                    [livre.titre, livre.nombrePages, livre.ISBN, livre.Auteur, livre.maisonEdition, livre.emprunte])
 
-    # Sauvegarde des adhérents dans un fichier JSON
-    def sauvegarder_adherents(self, filename="adherents.json"):
-        adherents_data = []
-        for adherent in self.adherents:
-            adherent_data = {
-                "nom": adherent.nom,
-                "prenom": adherent.prenom,
-                "age": adherent.age,
-                "numAdherent": adherent.numAdherent
-            }
-            adherents_data.append(adherent_data)
+    def sauvegarder_adherents(self, filename="adherents.csv"):
+        with open(filename, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(["nom", "prenom", "age", "numAdherent"])
 
-        with open(filename, "w") as file:
-            json.dump(adherents_data, file)
+            for adherent in self.adherents:
+                writer.writerow([adherent.nom, adherent.prenom, adherent.age, adherent.numAdherent])
 
-    # Ajout d'un adhérent à la liste et sauvegarde dans le fichier JSON
     def ajouter_adherent(self, adherent):
         self.adherents.append(adherent)
-        self.sauvegarder_adherents("adherents.json")
+        self.sauvegarder_adherents("adherents.csv")
 
-    # Suppression d'un adhérent à la liste et sauvegarde dans le fichier JSON
     def supprimer_adherent(self, adherent):
         self.adherents.remove(adherent)
-        self.sauvegarder_adherents("adherents.json")
+        self.sauvegarder_adherents("adherents.csv")
 
-    # Ajout d'un livre à la liste et sauvegarde dans le fichier JSON
     def ajouter_livre(self, livre):
         self.livres.append(livre)
-        self.sauvegarder_livres("my_books.json")
+        self.sauvegarder_livres("livres.csv")
 
-    # Suppression d'un livre de la liste et mise à jour du fichier JSON
     def supprimer_livre(self, livre):
         self.livres.remove(livre)
-        self.sauvegarder_livres("my_books.json")
+        self.sauvegarder_livres("livres.csv")
+
+
 
     def ajouter_emprunt(self, emprunt):
         self.emprunts.append(emprunt)
