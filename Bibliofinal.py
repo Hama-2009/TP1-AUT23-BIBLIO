@@ -267,7 +267,6 @@ class InterfaceUtilisateur:
                     print("{:<30} {:<15} {:<10} {:<15}".format(livre.titre, livre.ISBN, emprunte, date_emprunt))
 
                 input()
-
             elif choix == '7':
                 numAdherent = input("Entrez le ID de l'adhérent qui emprunte : ")
                 adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
@@ -287,37 +286,19 @@ class InterfaceUtilisateur:
                         print("{:<30} {:<15} {:<15}".format(livre.titre, livre.ISBN, date_emprunt))
                 else:
                     print("Cet adhérent n'a emprunté aucun livre.")
-                titre = input("Entrez le titre du livre emprunté : ")
-                livre = next((l for l in self.bibliotheque.livres if l.titre == titre), None)
+
+                ISBN = input("Entrez l'ISBN du livre emprunté : ")
+                livre = next((l for l in self.bibliotheque.livres if l.ISBN == ISBN), None)
                 if not livre:
                     print("Livre non trouvé.")
                     continue
+
                 date_emprunt = datetime.datetime.now().strftime("%Y-%m-%d")
                 emprunt = Emprunt(adherent, livre, date_emprunt)
                 self.bibliotheque.ajouter_emprunt(emprunt)
                 print("Emprunt exécuté avec succès")
                 input()
                 livre.emprunte = True
-            elif choix == '8':
-                numAdherent = input("Entrez le ID de l'adhérent qui retourne le livre : ")
-                adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
-                if not adherent:
-                    print("Adhérent non trouvé.")
-                    continue
-
-                ISBN = input("Entrez l'ISBN du livre à retourner : ")
-                livre = next((l for l in self.bibliotheque.livres if l.ISBN == ISBN), None)
-                if not livre:
-                    print("Livre non trouvé.")
-                    continue
-
-                emprunt = next((e for e in self.bibliotheque.emprunts if
-                                e.adherent == adherent and e.livre == livre and e.date_retour is None), None)
-                if emprunt:
-                    self.bibliotheque.retourner_emprunt(emprunt)
-                    livre.emprunte = False
-                else:
-                    print("Emprunt non trouvé.")
 
             elif choix == '8':
                 numAdherent = input("Entrez le ID de l'adhérent qui retourne le livre : ")
