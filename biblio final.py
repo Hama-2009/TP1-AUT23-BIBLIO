@@ -1,5 +1,5 @@
 import datetime
-from tabulate import tabulate
+import json
 
 
 class Personne:
@@ -47,17 +47,51 @@ class Bibliotheque:
         self.livres = []
         self.emprunts = []
 
+    def sauvegarder_livres(self, filename="livres.json"):
+        livres_data = []
+        for livre in self.livres:
+            livre_data = {
+                "titre": livre.titre,
+                "nombrePages": livre.nombrePages,
+                "ISBN": livre.ISBN,
+                "Auteur": livre.Auteur,
+                "maisonEdition": livre.maisonEdition,
+                "emprunte": livre.emprunte
+            }
+            livres_data.append(livre_data)
+
+        with open(filename, "w") as file:
+            json.dump(livres_data, file)
+
+    def sauvegarder_adherents(self, filename="adherents.json"):
+        adherents_data = []
+        for adherent in self.adherents:
+            adherent_data = {
+                "nom": adherent.nom,
+                "prenom": adherent.prenom,
+                "age": adherent.age,
+                "numAdherent": adherent.numAdherent
+            }
+            adherents_data.append(adherent_data)
+
+        with open(filename, "w") as file:
+            json.dump(adherents_data, file)
+
     def ajouter_adherent(self, adherent):
         self.adherents.append(adherent)
+        self.sauvegarder_adherents("adherents.json")
 
     def supprimer_adherent(self, adherent):
         self.adherents.remove(adherent)
+        self.sauvegarder_adherents("adherents.json")
 
     def ajouter_livre(self, livre):
         self.livres.append(livre)
+        self.sauvegarder_livres("my_books.json")
 
     def supprimer_livre(self, livre):
         self.livres.remove(livre)
+        self.sauvegarder_livres("my_books.json")
 
     def ajouter_emprunt(self, emprunt):
         self.emprunts.append(emprunt)
