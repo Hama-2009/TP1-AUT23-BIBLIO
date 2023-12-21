@@ -140,7 +140,7 @@ class InterfaceUtilisateur:
         print("""
         ╔══════════════════════════════════════════════╗
         ║═══════ Bienvenue à votre Bibliothèque ═══════║
-        ╠═══════════════ Faite un choix ═══════════════╠                
+        ╠═══════════════ Faite un choix ═══════════════╣                
         ╟ 1  →      Ajouter adhérent                   ║  
         ╟ 2  →      Supprimer adhérent                 ║  
         ╟ 3  →      Afficher tous les adhérents        ║  
