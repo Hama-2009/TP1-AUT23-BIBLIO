@@ -271,10 +271,11 @@ class InterfaceUtilisateur:
                     except ValueError:
                         print("------------------------------")
                         print("Veuillez saisir un numéro valide ou 'Q' pour revenir au menu principal.")
-
             elif choix == '6':
                 print("Liste des livres :")
-                print("{:<30} {:<15} {:<10} {:<15}".format("Titre", "ISBN", "Emprunté", "Date d'emprunt"))
+                print("{:<30} {:<15} {:<10} {:<15} {:<20} {:<20} {:<10}".format("Titre", "ISBN", "Emprunté",
+                                                                                "Auteur", "Maison d'édition",
+                                                                                "Nombre de pages", "Date d'emprunt"))
 
                 for livre in self.bibliotheque.livres:
                     emprunte = 'Non'
@@ -290,9 +291,12 @@ class InterfaceUtilisateur:
                                 date_emprunt = 'Non emprunté'
                             break
 
-                    print("{:<30} {:<15} {:<10} {:<15}".format(livre.titre, livre.ISBN, emprunte, date_emprunt))
-
+                    print("{:<30} {:<15} {:<10} {:<15} {:<20} {:<20} {:<10}".format(livre.titre, livre.ISBN, emprunte,
+                                                                                    livre.Auteur, livre.maisonEdition,
+                                                                                    livre.nombrePages, date_emprunt))
                 input()
+
+
             elif choix == '7':
                 numAdherent = input("Entrez le ID de l'adhérent qui emprunte : ")
                 adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
