@@ -330,6 +330,7 @@ class InterfaceUtilisateur:
                 input()
             else:
                 print("Choix invalide, veuillez réessayer.")
+                input()
 
 bibliotheque = Bibliotheque()
 interface = InterfaceUtilisateur(bibliotheque)
