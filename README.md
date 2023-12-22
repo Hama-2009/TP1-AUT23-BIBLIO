@@ -30,9 +30,12 @@ Le code est divisé en plusieurs classes :
 1. Exécutez le fichier `Bibliofinal.py` pour lancer l'interface utilisateur.
 2. Suivez les instructions du menu pour effectuer des actions suivantes: l'ajout d'adhérents, de livres et Emprunt.
 
+   ![image](https://github.com/Hama-2009/TP1-AUT23-BIBLIO/assets/146747219/c6603352-b1cd-4573-8a9a-4e94f38e3fb9)
+
+
 ## Sauvegarde des Données
 
-Les adhérents et les livres sont sauvegardés dans des fichiers JSON (`adherents.json` et `livres.json`) pour assurer la persistance des données entre les sessions.
+Les adhérents et les livres sont sauvegardés dans des fichiers csv (`adherents.csv` et `livres.csv`) pour assurer la persistance des données entre les sessions.
 
 ## Dépendances
 
