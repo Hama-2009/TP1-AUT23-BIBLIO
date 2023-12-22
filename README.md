@@ -35,7 +35,7 @@ Le code est divisé en plusieurs classes :
 
 ## Sauvegarde des Données
 
-Les adhérents et les livres sont sauvegardés dans des fichiers csv (`adherents.csv` et `livres.csv`) pour assurer la persistance des données entre les sessions.
+Les données sont sauvegardés dans des fichiers csv (`adherents.csv` et `livres.csv`) pour assurer la persistance des données entre les sessions.
 
 ## Dépendances
 
