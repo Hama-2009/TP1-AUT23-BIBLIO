@@ -349,28 +349,73 @@ class InterfaceUtilisateur:
                         break
                     elif autre_emprunt == 'q':
                         break
-
             elif choix == '8':
-                numAdherent = input("Entrez le ID de l'adhérent qui retourne le livre : ")
-                adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
-                if not adherent:
-                    print("Adhérent non trouvé.")
-                    continue
+                while True:
+                    print("Liste des adhérents :")
+                    print("{:<20} {:<20} {:<10}".format("ID", "Nom", "Prénom"))
+                    for adherent in self.bibliotheque.adherents:
+                        print("{:<20} {:<20} {:<10}".format(adherent.numAdherent, adherent.nom, adherent.prenom))
+                    print("\n(Ou tapez 'Q' pour revenir au menu principal)")
 
-                ISBN = input("Entrez l'ISBN du livre à retourner : ")
-                livre = next((l for l in self.bibliotheque.livres if l.ISBN == ISBN), None)
-                if not livre:
-                    print("Livre non trouvé.")
-                    continue
+                    numAdherent = input("Entrez le ID de l'adhérent qui retourne le livre : ")
+                    if numAdherent.lower() == 'q':
+                        return
 
-                emprunt = next((e for e in self.bibliotheque.emprunts if
-                                e.adherent == adherent and e.livre == livre and e.date_retour is None), None)
-                if emprunt:
+                    adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
+                    if not adherent:
+                        print("Adhérent non trouvé.")
+                        continue
+
+                    print("\nListe des livres empruntés par l'adhérent :")
+                    print("{:<5} {:<30} {:<15} {:<10}".format("Num", "Titre", "ISBN", "Emprunté"))
+                    for idx, emprunt in enumerate(self.bibliotheque.emprunts, start=1):
+                        if emprunt.adherent == adherent and emprunt.date_retour is None:
+                            livre = emprunt.livre
+                            print("{:<5} {:<30} {:<15} {:<10}".format(idx, livre.titre, livre.ISBN,
+                                                                      "Oui" if livre.emprunte else "Non"))
+
+                    print("\n(Ou tapez 'Q' pour revenir au menu principal)")
+
+                    ISBN = input("Entrez l'ISBN du livre à retourner : ")
+                    if ISBN.lower() == 'q':
+                        return
+
+                    livre = next((l for l in self.bibliotheque.livres if l.ISBN == ISBN and l.emprunte), None)
+                    if not livre:
+                        print("Livre non trouvé ou déjà retourné.")
+                        continue
+
+                    emprunt = next(
+                        (e for e in self.bibliotheque.emprunts if e.livre == livre and e.date_retour is None), None)
+                    if not emprunt:
+                        print("Emprunt non trouvé.")
+                        continue
+
                     self.bibliotheque.retourner_emprunt(emprunt)
                     livre.emprunte = False
-                else:
-                    print("Emprunt non trouvé.")
-                input("Appuyez sur Entrée pour continuer...")
+                    print("Retour effectué avec succès")
+
+                    # Mise à jour de la liste des livres après le retour
+                    print("\nListe des livres après le retour :")
+                    print("{:<30} {:<15} {:<10} {:<15}".format("Titre", "ISBN", "Emprunté", "Date d'emprunt"))
+
+                    for livre in self.bibliotheque.livres:
+                        emprunte = 'Non'
+                        date_emprunt = 'Non emprunté'
+
+                        for emprunt in self.bibliotheque.emprunts:
+                            if emprunt.livre == livre:
+                                if emprunt.date_retour is None:
+                                    emprunte = 'Oui'
+                                    date_emprunt = emprunt.date_emprunt
+                                else:
+                                    emprunte = 'Non'
+                                    date_emprunt = 'Non emprunté'
+                                break
+
+                        print("{:<30} {:<15} {:<10} {:<15}".format(livre.titre, livre.ISBN, emprunte, date_emprunt))
+                    break  # Sortie de la boucle une fois que le retour est effectué et la liste des livres mise à jour
+
             elif choix == '9':
                 print("Liste des Emprunts :")
                 print("Adhérent".ljust(20), "Livre".ljust(30), "Date d'emprunt")
