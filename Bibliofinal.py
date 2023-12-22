@@ -232,20 +232,46 @@ class InterfaceUtilisateur:
                         break  # Sortir de la boucle pour ajouter un autre livre
                     if autre_livre == 'non':
                         break  # Pour revenir au menu principal4
-            elif choix == '5':
-                print("Liste des titres de livres disponibles par ordre alphabétique :")
-                sorted_titles = sorted([livre.titre for livre in self.bibliotheque.livres])
-                for title in sorted_titles:
-                    print(f"- {title}")
 
-                titre = input("Entrez le titre du livre à supprimer : ")
-                livre = next((l for l in self.bibliotheque.livres if l.titre == titre), None)
-                if livre:
-                    self.bibliotheque.supprimer_livre(livre)
-                    print("Livre supprimé avec succès.")
-                    input()
-                else:
-                    print("Livre non trouvé.")
+            elif choix == '5':
+                while True:
+                    print("Liste des livres disponibles :\n")
+                    print("{:<5} {:<30} {:<15} {:<15} {:<20} {:<20} {:<10}".format("Num", "Titre", "ISBN", "Emprunté",
+                                                                                   "Auteur", "Maison d'édition",
+                                                                                   "Nombre de pages"))
+
+                    for idx, livre in enumerate(self.bibliotheque.livres, start=1):
+                        emprunte = 'Non'
+                        for emprunt in self.bibliotheque.emprunts:
+                            if emprunt.livre == livre and emprunt.date_retour is None:
+                                emprunte = 'Oui'
+                                break
+
+                        print("{:<5} {:<30} {:<15} {:<15} {:<20} {:<20} {:<10}".format(
+                            idx, livre.titre, livre.ISBN, emprunte, livre.Auteur, livre.maisonEdition,
+                            livre.nombrePages))
+
+                    print("\nSaisissez le numéro du livre à supprimer (ou 'Q' pour revenir au menu principal) : ")
+                    user_input = input()
+
+                    if user_input.lower() == 'q':
+                        break
+
+                    try:
+                        user_choice = int(user_input)
+                        if 1 <= user_choice <= len(self.bibliotheque.livres):
+                            livre = self.bibliotheque.livres[user_choice - 1]
+                            self.bibliotheque.supprimer_livre(livre)
+                            print("\n------------------------------")
+                            print("Livre supprimé avec succès.")
+                            input("Appuyez sur Entrée pour continuer...")
+                        else:
+                            print("------------------------------")
+                            print("Choix invalide. Veuillez saisir un numéro de livre valide.")
+                    except ValueError:
+                        print("------------------------------")
+                        print("Veuillez saisir un numéro valide ou 'Q' pour revenir au menu principal.")
+
             elif choix == '6':
                 print("Liste des livres :")
                 print("{:<30} {:<15} {:<10} {:<15}".format("Titre", "ISBN", "Emprunté", "Date d'emprunt"))
