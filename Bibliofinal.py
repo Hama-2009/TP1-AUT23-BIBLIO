@@ -298,48 +298,56 @@ class InterfaceUtilisateur:
             elif choix == '7':
                 while True:
                     print("\nListe des adhérents :")
-                    print("{:<15} {:<15} {:<10}".format("ID", "Nom", "Prénom"))
+                    print("{:<20} {:<20} {:<10}".format("ID", "Nom", "Prénom"))
                     for adherent in self.bibliotheque.adherents:
-                        print("{:<15} {:<15} {:<10}".format(adherent.numAdherent, adherent.nom, adherent.prenom))
+                        print("{:<20} {:<20} {:<10}".format(adherent.numAdherent, adherent.nom, adherent.prenom))
+                    print("\n(Ou tapez 'Q' pour revenir au menu principal)")
 
-                    numAdherent = input("\nEntrez le ID de l'adhérent qui emprunte : ")
-                    adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
-                    if not adherent:
-                        print("Adhérent non trouvé. Veuillez réessayer.")
-                        continue
-
-                    while True:
-                        print("\nListe des livres disponibles :")
-                        print("{:<15} {:<30} {:<10}".format("ISBN", "Titre", "Emprunté"))
-                        for livre in self.bibliotheque.livres:
-                            emprunte = 'Oui' if livre.emprunte else 'Non'
-                            print("{:<15} {:<30} {:<10}".format(livre.ISBN, livre.titre, emprunte))
-
-                        ISBN = input("\nEntrez l'ISBN du livre emprunté : ")
-                        livre = next((l for l in self.bibliotheque.livres if l.ISBN == ISBN), None)
-                        if not livre:
-                            print("Livre non trouvé. Veuillez réessayer.")
-                            continue
-                        if livre.emprunte:
-                            print("Ce livre est déjà emprunté. Veuillez choisir un autre livre.")
-                            continue
-
-                        date_emprunt = datetime.datetime.now().strftime("%Y-%m-%d")
-                        emprunt = Emprunt(adherent, livre, date_emprunt)
-                        self.bibliotheque.ajouter_emprunt(emprunt)
-                        print("Emprunt exécuté avec succès")
-                        input()
-                        livre.emprunte = True
-
-                        autre_livre = input("\nVoulez-vous ajouter un autre livre ? (Oui/Non) : ").lower()
-                        if autre_livre == 'non':
-                            break
-                        elif autre_livre != 'oui':
-                            print("Veuillez entrer 'Oui' ou 'Non'.")
-                            continue
+                    numAdherent = input("Entrez l'ID de l'adhérent qui emprunte : ")
+                    if numAdherent.lower() == 'q':
                         break
 
-                    if autre_livre == 'non':
+                    adherent = next((a for a in self.bibliotheque.adherents if a.numAdherent == numAdherent), None)
+                    if not adherent:
+                        print("Adhérent non trouvé.")
+                        continue
+
+                    print("\nListe des livres disponibles :")
+                    print("{:<5} {:<30} {:<15} {:<15} {:<20} {:<20} {:<10}".format(
+                        "Num", "Titre", "ISBN", "Emprunté", "Auteur", "Maison d'édition", "Nombre de pages"))
+                    for idx, livre in enumerate(self.bibliotheque.livres, start=1):
+                        emprunte = 'Non'
+                        for emprunt in self.bibliotheque.emprunts:
+                            if emprunt.livre == livre and emprunt.date_retour is None:
+                                emprunte = 'Oui'
+                                break
+                        print("{:<5} {:<30} {:<15} {:<15} {:<20} {:<20} {:<10}".format(
+                            idx, livre.titre, livre.ISBN, emprunte, livre.Auteur, livre.maisonEdition,
+                            livre.nombrePages))
+
+                    print("\n(Ou tapez 'Q' pour revenir au menu principal)")
+
+                    ISBN = input("Entrez l'ISBN du livre emprunté : ")
+                    if ISBN.lower() == 'q':
+                        break
+
+                    livre = next((l for l in self.bibliotheque.livres if l.ISBN == ISBN and not l.emprunte), None)
+                    if not livre:
+                        print("Livre non trouvé ou déjà emprunté.")
+                        continue
+
+                    date_emprunt = datetime.datetime.now().strftime("%Y-%m-%d")
+                    emprunt = Emprunt(adherent, livre, date_emprunt)
+                    self.bibliotheque.ajouter_emprunt(emprunt)
+                    print("Emprunt effectué avec succès")
+                    livre.emprunte = True
+
+                    autre_emprunt = input("Voulez-vous ajouter un autre livre à emprunter ? (Oui/Non) : ").lower()
+                    if autre_emprunt == 'oui':
+                        continue
+                    elif autre_emprunt == 'non':
+                        break
+                    elif autre_emprunt == 'q':
                         break
 
             elif choix == '8':
